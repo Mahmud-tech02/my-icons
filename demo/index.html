@@ -1,1 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Icons — SVG Outline Icon Library</title>
+<style>
+  :root{
+    --bg: #0f1115;
+    --surface: #171a21;
+    --surface-hover: #1d212a;
+    --border: #262b35;
+    --text: #e7e9ed;
+    --muted: #8b93a3;
+    --accent: #5b8cff;
+    --accent-dim: #26314d;
+    --mono: "SFMono-Regular", "JetBrains Mono", Consolas, Menlo, monospace;
+    --sans: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  *{ box-sizing: border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.5;
+  }
 
+  header{
+    border-bottom: 1px solid var(--border);
+    padding: 40px 32px 28px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  header h1{
+    margin: 0 0 6px;
+    font-size: 26px;
+    font-weight: 650;
+    letter-spacing: -0.01em;
+  }
+  header p{
+    margin: 0;
+    color: var(--muted);
+    font-size: 15px;
+    max-width: 60ch;
+  }
+  header code{
+    font-family: var(--mono);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 13px;
+    color: var(--accent);
+  }
+
+  .toolbar{
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 24px 32px 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .toolbar input{
+    flex: 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-size: 14px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-family: var(--sans);
+    outline: none;
+  }
+  .toolbar input:focus{
+    border-color: var(--accent);
+  }
+  .toolbar .count{
+    color: var(--muted);
+    font-size: 13px;
+    white-space: nowrap;
+    font-family: var(--mono);
+  }
+
+  main{
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 24px 32px 64px;
+  }
+
+  .grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+  }
+
+  .card{
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 12px 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+    transition: border-color .12s ease, background .12s ease;
+  }
+  .card:hover{
+    border-color: var(--accent);
+    background: var(--surface-hover);
+  }
+  .card .icon{
+    width: 26px;
+    height: 26px;
+    color: var(--text);
+  }
+  .card .name{
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    word-break: break-all;
+  }
+  .card button.copy{
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    background: var(--accent-dim);
+    border: none;
+    border-radius: 6px;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  .card button.copy:hover{
+    filter: brightness(1.15);
+  }
+  .card button.copy.copied{
+    color: #7bffb0;
+    background: #163828;
+  }
+
+  .empty{
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 14px;
+    padding: 40px 0;
+    text-align: center;
+  }
+
+  footer{
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 32px 48px;
+    color: var(--muted);
+    font-size: 13px;
+    border-top: 1px solid var(--border);
+    padding-top: 20px;
+  }
+  footer a{ color: var(--accent); text-decoration: none; }
+  footer a:hover{ text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>My Icons</h1>
+  <p>
+    A reusable outline SVG icon library. Drop in <code>icons.js</code>, then write
+    <code>&lt;i data-icon="name"&gt;&lt;/i&gt;</code> anywhere in your HTML — no copy-pasting SVG code.
+  </p>
+</header>
+
+<div class="toolbar">
+  <input type="text" id="search" placeholder="Search icons by name…" autocomplete="off">
+  <span class="count" id="count"></span>
+</div>
+
+<main>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty" style="display:none;">No icons match your search.</div>
+</main>
+
+<footer>
+  My Icons — MIT Licensed. See <a href="../README.md">README.md</a> for installation and usage.
+</footer>
+
+<!--
+  Loads the icon loader from the local repo copy of icons.svg.
+  In a real project hosted on GitHub, point data-icons-url at your
+  raw.githubusercontent.com or jsDelivr URL instead (see README.md).
+-->
+<script src="../dist/icons.js" data-icons-url="../icons/icons.svg"></script>
+
+<script>
+  var ICON_NAMES = [
+    "search","user","cart","heart","home","menu","close","check","star","phone",
+    "email","location","truck","calendar","clock","plus","minus","arrow-left",
+    "arrow-right","chevron-down","chevron-up","edit","delete","settings","download",
+    "upload","eye","eye-off","lock","unlock","bell","filter","share","copy",
+    "external-link","refresh","play","pause","image","camera","shopping-bag",
+    "credit-card","wallet","package","map","globe","info","warning","help",
+    "logout","login"
+  ];
+
+  var grid = document.getElementById("grid");
+  var countEl = document.getElementById("count");
+  var emptyEl = document.getElementById("empty");
+  var searchInput = document.getElementById("search");
+
+  function buildCards(){
+    var html = "";
+    for (var i = 0; i < ICON_NAMES.length; i++){
+      var name = ICON_NAMES[i];
+      var snippet = '<i data-icon="' + name + '"></i>';
+      html +=
+        '<div class="card" data-name="' + name + '">' +
+          '<i data-icon="' + name + '" aria-hidden="true"></i>' +
+          '<span class="name">' + name + '</span>' +
+          '<button class="copy" type="button" data-snippet="' + snippet.replace(/"/g, "&quot;") + '">Copy</button>' +
+        '</div>';
+    }
+    grid.innerHTML = html;
+    countEl.textContent = ICON_NAMES.length + " icons";
+
+    // Render any icons already in the DOM (loader also watches for new ones).
+    if (window.Icons) window.Icons.render(grid);
+  }
+
+  function filterCards(){
+    var q = searchInput.value.trim().toLowerCase();
+    var cards = grid.querySelectorAll(".card");
+    var visible = 0;
+    cards.forEach(function(card){
+      var match = card.getAttribute("data-name").indexOf(q) !== -1;
+      card.style.display = match ? "" : "none";
+      if (match) visible++;
+    });
+    emptyEl.style.display = visible === 0 ? "block" : "none";
+    countEl.textContent = visible + " / " + ICON_NAMES.length + " icons";
+  }
+
+  grid.addEventListener("click", function(e){
+    var btn = e.target.closest("button.copy");
+    if (!btn) return;
+    var text = btn.getAttribute("data-snippet");
+    navigator.clipboard.writeText(text).then(function(){
+      var original = btn.textContent;
+      btn.textContent = "Copied!";
+      btn.classList.add("copied");
+      setTimeout(function(){
+        btn.textContent = original;
+        btn.classList.remove("copied");
+      }, 1200);
+    });
+  });
+
+  searchInput.addEventListener("input", filterCards);
+
+  buildCards();
+</script>
+
+</body>
+</html>
